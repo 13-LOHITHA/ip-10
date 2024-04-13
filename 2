@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GCD Calculator</title>
+</head>
+<body>
+    <h2>GCD Calculator</h2>
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+        Enter the first number: <input type="text" name="number1"><br>
+        Enter the second number: <input type="text" name="number2"><br>
+        <input type="submit" name="submit" value="Calculate GCD">
+    </form>
+
+    <?php
+    // Function to calculate GCD using loops
+    function calculateGCD($num1, $num2) {
+        $num1 = abs($num1);
+        $num2 = abs($num2);
+        while ($num2 != 0) {
+            $temp = $num1 % $num2;
+            $num1 = $num2;
+            $num2 = $temp;
+        }
+        return $num1;
+    }
+
+    // Process form data when submitted
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $number1 = $_POST["number1"];
+        $number2 = $_POST["number2"];
+        
+        // Validate inputs
+        if (!is_numeric($number1) || !is_numeric($number2)) {
+            echo "<p>Please enter valid numbers.</p>";
+        } else {
+            $gcd = calculateGCD($number1, $number2);
+            echo "<p>The Greatest Common Divisor (GCD) of $number1 and $number2 is: $gcd</p>";
+        }
+    }
+    ?>
+</body>
+</html>
